@@ -1,0 +1,5 @@
+package xyz.demorgan.anxiety_track
+
+import io.flutter.embedding.android.FlutterActivity
+
+class MainActivity : FlutterActivity()

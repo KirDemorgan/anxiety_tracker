@@ -44,7 +44,6 @@ class DailyDataProvider with ChangeNotifier {
       _notes = await _noteRepository.getNotesForDate(date);
       _medications = await _medicationRepository.getMedicationsForDate(date);
     } catch (e) {
-      // print("Error loading data for $date: $e");
       _error = "Не удалось загрузить данные: $e";
     } finally {
       _isLoading = false;
@@ -58,9 +57,8 @@ class DailyDataProvider with ChangeNotifier {
     notifyListeners();
     try {
       await _dailyMoodEntryRepository.saveDailyMoodEntry(entry);
-      await loadDataForDay(_selectedDate); // Перезагружаем данные для обновления UI
+      await loadDataForDay(_selectedDate);
     } catch (e) {
-      // print("Error saving mood entry: $e");
       _error = "Не удалось сохранить настроение: $e";
     } finally {
       _isLoading = false;
@@ -76,7 +74,6 @@ class DailyDataProvider with ChangeNotifier {
       await _noteRepository.addNote(note.copyWith(date: _selectedDate));
       await loadDataForDay(_selectedDate);
     } catch (e) {
-      // print("Error adding note: $e");
        _error = "Не удалось добавить заметку: $e";
     } finally {
       _isLoading = false;
@@ -122,7 +119,6 @@ class DailyDataProvider with ChangeNotifier {
       await _medicationRepository.addMedication(medication.copyWith(date: _selectedDate));
       await loadDataForDay(_selectedDate);
     } catch (e) {
-      // print("Error adding medication: $e");
       _error = "Не удалось добавить лекарство: $e";
     } finally {
       _isLoading = false;

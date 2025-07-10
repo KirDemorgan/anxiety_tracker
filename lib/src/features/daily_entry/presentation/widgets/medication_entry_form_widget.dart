@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import '../../../../data/models/medication.dart';
 
-// Форма для добавления записи о приеме лекарства.
 class MedicationEntryFormWidget extends StatefulWidget {
-  final DateTime selectedDate; // Для привязки лекарства к дате
+  final DateTime selectedDate;
   final Function(Medication) onSave;
 
   const MedicationEntryFormWidget({
@@ -25,14 +24,14 @@ class _MedicationEntryFormWidgetState extends State<MedicationEntryFormWidget> {
  @override
   void initState() {
     super.initState();
-    _selectedTime = TimeOfDay.now(); // Устанавливаем текущее время по умолчанию
+    _selectedTime = TimeOfDay.now();
   }
 
   Future<void> _pickTime(BuildContext context) async {
     final TimeOfDay? picked = await showTimePicker(
       context: context,
       initialTime: _selectedTime ?? TimeOfDay.now(),
-       builder: (BuildContext context, Widget? child) { // Для русификации кнопок
+       builder: (BuildContext context, Widget? child) {
         return Localizations.override(
           context: context,
           locale: const Locale('ru', 'RU'),
@@ -55,10 +54,8 @@ class _MedicationEntryFormWidgetState extends State<MedicationEntryFormWidget> {
         );
         return;
       }
-      // ID будет присвоен базой данных, поэтому здесь не указываем.
-      // selectedDate уже содержит только дату (полночь).
       final newMedication = Medication(
-        date: widget.selectedDate, // Это DateTime с временем 00:00:00
+        date: widget.selectedDate,
         time: _selectedTime!,
         name: _nameController.text,
         dosage: _dosageController.text.isNotEmpty ? _dosageController.text : null,
@@ -66,8 +63,6 @@ class _MedicationEntryFormWidgetState extends State<MedicationEntryFormWidget> {
       widget.onSave(newMedication);
       _nameController.clear();
       _dosageController.clear();
-      // Оставляем время для удобства добавления следующего лекарства
-      // setState(() { _selectedTime = TimeOfDay.now(); }); 
     }
   }
 

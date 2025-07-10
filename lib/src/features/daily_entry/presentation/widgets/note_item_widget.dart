@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../../data/models/note.dart';
 
-// Виджет для отображения одного элемента заметки в списке.
 class NoteItemWidget extends StatelessWidget {
   final Note note;
 
@@ -26,8 +25,6 @@ class NoteItemWidget extends StatelessWidget {
           'Время: ${timeFormatter.formatTimeOfDay(note.time, alwaysUse24HourFormat: true)}',
           style: TextStyle(fontSize: 13.0, color: Colors.grey[700]),
         ),
-        // Можно добавить кнопку для удаления или редактирования, если потребуется
-        // trailing: IconButton(icon: Icon(Icons.edit), onPressed: () { /* TODO: Edit note */ }),
       ),
     );
   }

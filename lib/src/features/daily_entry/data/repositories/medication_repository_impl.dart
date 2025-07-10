@@ -12,7 +12,6 @@ class MedicationRepositoryImpl implements MedicationRepository {
     try {
       return await _dao.insertMedication(medication);
     } catch (e) {
-      // print('Error adding medication: $e');
       rethrow;
     }
   }
@@ -22,7 +21,6 @@ class MedicationRepositoryImpl implements MedicationRepository {
     try {
       return await _dao.getMedicationsByDate(date);
     } catch (e) {
-      // print('Error fetching medications for $date: $e');
       return [];
     }
   }
@@ -32,7 +30,6 @@ class MedicationRepositoryImpl implements MedicationRepository {
     try {
       await _dao.updateMedication(medication);
     } catch (e) {
-      // print('Error updating medication ${medication.id}: $e');
       rethrow;
     }
   }
@@ -42,7 +39,6 @@ class MedicationRepositoryImpl implements MedicationRepository {
     try {
       await _dao.deleteMedication(medicationId);
     } catch (e) {
-      // print('Error deleting medication $medicationId: $e');
       rethrow;
     }
   }

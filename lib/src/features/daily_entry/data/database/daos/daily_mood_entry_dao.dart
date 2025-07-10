@@ -10,18 +10,15 @@ class DailyMoodEntryDao {
   Future<void> insertOrUpdateDailyMoodEntry(DailyMoodEntry entry) async {
     final db = await _dbHelper.database;
     
-    // Проверяем, существует ли запись для этой даты
     final existingEntry = await getDailyMoodEntryByDate(entry.date);
     
     if (existingEntry == null) {
-      // Вставляем новую запись
       await db.insert(
         DatabaseHelper.tableDailyEntries,
         entry.toMap(),
         conflictAlgorithm: ConflictAlgorithm.replace,
       );
     } else {
-      // Обновляем существующую запись
       await db.update(
         DatabaseHelper.tableDailyEntries,
         entry.toMap(),

@@ -25,16 +25,13 @@ class _DailyLogViewWidgetState extends State<DailyLogViewWidget> {
   @override
   void initState() {
     super.initState();
-    // Загружаем данные для текущего (изначально выбранного) дня
-    // Используем addPostFrameCallback, чтобы Provider был доступен
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final provider = Provider.of<DailyDataProvider>(context, listen: false);
       if (provider.selectedDate.day != DateTime.now().day || 
           provider.selectedDate.month != DateTime.now().month ||
           provider.selectedDate.year != DateTime.now().year) {
-             provider.loadDataForDay(DateTime.now()); // Устанавливаем и загружаем сегодняшний день
+             provider.loadDataForDay(DateTime.now());
       } else if (provider.notes.isEmpty && provider.medications.isEmpty && provider.moodEntry == null) {
-        // Если выбран сегодняшний день, но данных нет, загружаем
          provider.loadDataForDay(provider.selectedDate);
       }
     });
@@ -42,7 +39,6 @@ class _DailyLogViewWidgetState extends State<DailyLogViewWidget> {
 
   @override
   Widget build(BuildContext context) {
-    // Получаем провайдер. `watch` перестроит виджет при изменениях в провайдере.
     final dailyDataProvider = Provider.of<DailyDataProvider>(context);
     String formattedDate = DateFormat('dd MMMM yyyy', 'ru_RU').format(dailyDataProvider.selectedDate);
 
@@ -61,9 +57,8 @@ class _DailyLogViewWidgetState extends State<DailyLogViewWidget> {
               focusedDay: _focusedDay,
               onDaySelected: (selectedDay, focusedDay) {
                 setState(() {
-                  _focusedDay = focusedDay; // Обновляем focusedDay для календаря
+                  _focusedDay = focusedDay;
                 });
-                // Загружаем данные для нового выбранного дня через провайдер
                 dailyDataProvider.loadDataForDay(selectedDay);
               },
               onPageChanged: (focusedDay) {
@@ -95,7 +90,7 @@ class _DailyLogViewWidgetState extends State<DailyLogViewWidget> {
             _buildSectionCard(
               title: 'Добавить Заметку',
               child: NoteEntryFormWidget(
-                selectedDate: dailyDataProvider.selectedDate, // Передаем текущую выбранную дату
+                selectedDate: dailyDataProvider.selectedDate,
                 onSave: (Note newNote) {
                   dailyDataProvider.addNote(newNote).then((_) {
                      if (mounted && dailyDataProvider.error == null) {

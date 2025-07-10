@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import '../../../../data/models/note.dart';
 
-// Форма для добавления новой заметки.
 class NoteEntryFormWidget extends StatefulWidget {
-  final DateTime selectedDate; // Для привязки заметки к дате
+  final DateTime selectedDate;
   final Function(Note) onSave;
 
   const NoteEntryFormWidget({
@@ -24,14 +23,14 @@ class _NoteEntryFormWidgetState extends State<NoteEntryFormWidget> {
   @override
   void initState() {
     super.initState();
-    _selectedTime = TimeOfDay.now(); // Устанавливаем текущее время по умолчанию
+    _selectedTime = TimeOfDay.now();
   }
 
   Future<void> _pickTime(BuildContext context) async {
     final TimeOfDay? picked = await showTimePicker(
       context: context,
       initialTime: _selectedTime ?? TimeOfDay.now(),
-      builder: (BuildContext context, Widget? child) { // Для русификации кнопок
+      builder: (BuildContext context, Widget? child) {
         return Localizations.override(
           context: context,
           locale: const Locale('ru', 'RU'),
@@ -55,17 +54,13 @@ class _NoteEntryFormWidgetState extends State<NoteEntryFormWidget> {
         return;
       }
 
-      // ID будет присвоен базой данных, поэтому здесь не указываем.
-      // selectedDate уже содержит только дату (полночь).
       final newNote = Note(
-        date: widget.selectedDate, // Это DateTime с временем 00:00:00
+        date: widget.selectedDate,
         time: _selectedTime!,
         text: _noteTextController.text,
       );
       widget.onSave(newNote);
-      _noteTextController.clear(); // Очищаем поле после сохранения
-      // Оставляем время для удобства добавления следующей заметки
-      // setState(() { _selectedTime = TimeOfDay.now(); }); 
+      _noteTextController.clear();
     }
   }
 
@@ -88,7 +83,7 @@ class _NoteEntryFormWidgetState extends State<NoteEntryFormWidget> {
             decoration: const InputDecoration(
               labelText: 'Текст заметки',
               hintText: 'Опишите свои мысли или события...',
-              alignLabelWithHint: true, // Для многострочных полей
+              alignLabelWithHint: true,
             ),
             maxLines: 3,
             validator: (value) {

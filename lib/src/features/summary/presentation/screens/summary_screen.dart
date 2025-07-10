@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-// Экран-заглушка для сводки.
 class SummaryScreen extends StatelessWidget {
   const SummaryScreen({super.key});
 

@@ -10,17 +10,15 @@ class NoteDao {
 
   Future<Database> get _db async => await _dbHelper.database;
 
-  // Вставить новую заметку
   Future<int> insertNote(Note note) async {
     final dbClient = await _db;
     return await dbClient.insert(
       DatabaseHelper.tableNotes,
-      note.toMap()..remove('id'), // id будет автоинкрементирован
+      note.toMap()..remove('id'),
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
   }
 
-  // Получить все заметки для определенной даты
   Future<List<Note>> getNotesByDate(DateTime date) async {
     final dbClient = await _db;
     final String dateString = DateFormat('yyyy-MM-dd').format(date);
@@ -28,7 +26,7 @@ class NoteDao {
       DatabaseHelper.tableNotes,
       where: '${DatabaseHelper.columnDate} = ?',
       whereArgs: [dateString],
-      orderBy: '${DatabaseHelper.columnTimestamp} ASC', // Сортируем по времени
+      orderBy: '${DatabaseHelper.columnTimestamp} ASC',
     );
 
     return List.generate(maps.length, (i) {
@@ -36,7 +34,6 @@ class NoteDao {
     });
   }
 
-  // Обновить заметку
   Future<int> updateNote(Note note) async {
     final dbClient = await _db;
     return await dbClient.update(
@@ -47,7 +44,6 @@ class NoteDao {
     );
   }
 
-  // Удалить заметку по ID
   Future<int> deleteNote(int id) async {
     final dbClient = await _db;
     return await dbClient.delete(
@@ -57,7 +53,6 @@ class NoteDao {
     );
   }
 
-  // Получить все заметки (для отладки или других нужд)
   Future<List<Note>> getAllNotes() async {
     final dbClient = await _db;
     final List<Map<String, dynamic>> maps = await dbClient.query(DatabaseHelper.tableNotes);

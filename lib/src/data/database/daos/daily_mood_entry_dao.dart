@@ -10,31 +10,25 @@ class DailyMoodEntryDao {
 
   Future<Database> get _db async => await _dbHelper.database;
 
-  // Создать или обновить запись о настроении
-  // sqflite's insert with conflictAlgorithm.replace handles UPSERT.
   Future<int> insertOrUpdateDailyMoodEntry(DailyMoodEntry entry) async {
     final dbClient = await _db;
-    // Проверяем, есть ли запись для этой даты
     final existingEntry = await getDailyMoodEntryByDate(entry.date);
     if (existingEntry != null) {
-      // Обновляем существующую запись
       return await dbClient.update(
         DatabaseHelper.tableDailyEntries,
-        entry.toMap()..remove('id'), // id не нужен для WHERE clause по дате
+        entry.toMap()..remove('id'),
         where: '${DatabaseHelper.columnDate} = ?',
         whereArgs: [DateFormat('yyyy-MM-dd').format(entry.date)],
       );
     } else {
-      // Вставляем новую запись
       return await dbClient.insert(
         DatabaseHelper.tableDailyEntries,
-        entry.toMap()..remove('id'), // id будет автоинкрементирован
-        conflictAlgorithm: ConflictAlgorithm.replace, // На случай если дата все же как-то продублируется (хотя UNIQUE)
+        entry.toMap()..remove('id'),
+        conflictAlgorithm: ConflictAlgorithm.replace,
       );
     }
   }
   
-  // Получить запись о настроении по дате
   Future<DailyMoodEntry?> getDailyMoodEntryByDate(DateTime date) async {
     final dbClient = await _db;
     final String dateString = DateFormat('yyyy-MM-dd').format(date);
@@ -50,7 +44,6 @@ class DailyMoodEntryDao {
     return null;
   }
 
-  // Получить все записи о настроении (может понадобиться для сводки)
   Future<List<DailyMoodEntry>> getAllDailyMoodEntries() async {
     final dbClient = await _db;
     final List<Map<String, dynamic>> maps = await dbClient.query(DatabaseHelper.tableDailyEntries);
@@ -59,7 +52,6 @@ class DailyMoodEntryDao {
     });
   }
   
-  // Удалить запись (если потребуется)
   Future<int> deleteDailyMoodEntry(DateTime date) async {
     final dbClient = await _db;
     final String dateString = DateFormat('yyyy-MM-dd').format(date);

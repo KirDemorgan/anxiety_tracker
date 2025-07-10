@@ -12,7 +12,6 @@ class DailyMoodEntryRepositoryImpl implements DailyMoodEntryRepository {
     try {
       await _dao.insertOrUpdateDailyMoodEntry(entry);
     } catch (e) {
-      // print('Error saving daily mood entry: $e');
       rethrow;
     }
   }
@@ -22,7 +21,6 @@ class DailyMoodEntryRepositoryImpl implements DailyMoodEntryRepository {
     try {
       return await _dao.getDailyMoodEntryByDate(date);
     } catch (e) {
-      // print('Error fetching daily mood entry for $date: $e');
       return null;
     }
   }
@@ -32,7 +30,6 @@ class DailyMoodEntryRepositoryImpl implements DailyMoodEntryRepository {
     try {
       return await _dao.getAllDailyMoodEntries();
     } catch (e) {
-      // print('Error fetching all daily mood entries: $e');
       return [];
     }
   }
@@ -42,7 +39,6 @@ class DailyMoodEntryRepositoryImpl implements DailyMoodEntryRepository {
     try {
       await _dao.deleteDailyMoodEntry(date);
     } catch (e) {
-      // print('Error deleting daily mood entry for $date: $e');
       rethrow;
     }
   }

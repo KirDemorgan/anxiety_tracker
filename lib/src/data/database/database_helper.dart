@@ -20,12 +20,10 @@ class DatabaseHelper {
   static const columnEveningMood = 'evening_mood';
 
   // Поля таблицы notes
-  // columnId, columnDate уже есть
   static const columnTimestamp = 'timestamp';
   static const columnText = 'text';
 
   // Поля таблицы medications
-  // columnId, columnDate, columnTimestamp уже есть
   static const columnName = 'name';
   static const columnDosage = 'dosage';
 
@@ -83,6 +81,4 @@ class DatabaseHelper {
       ''');
     await db.execute('CREATE INDEX idx_medications_date ON $tableMedications($columnDate)');
   }
-
-  // Вспомогательные методы для CRUD операций будут в DAO
 }

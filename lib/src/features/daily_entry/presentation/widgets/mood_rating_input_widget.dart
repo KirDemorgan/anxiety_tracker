@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 
-// Виджет для ввода одной оценки настроения (например, слайдер).
 class MoodRatingInputWidget extends StatelessWidget {
   final String label;
-  final double? value; // Может быть null, если еще не установлено
+  final double? value;
   final ValueChanged<double> onChanged;
 
   const MoodRatingInputWidget({
@@ -15,13 +14,7 @@ class MoodRatingInputWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Если value is null, устанавливаем дефолтное значение для слайдера (например, середина)
-    // или позволяем слайдеру быть в "неопределенном" состоянии, если дизайн это поддерживает.
-    // Для простоты, если null, можно считать как 5.0 для отображения, но не передавать в onChanged, пока пользователь не двинет.
-    // Либо, как сейчас, value может быть null, и слайдер будет это отражать (или вызовет ошибку, если min/max/value несовместимы).
-    // Slider требует, чтобы value было в диапазоне min-max. Если value null, нужно задать начальное.
-    // Установим 5.0 как начальное значение, если value is null.
-    final currentValue = value ?? 5.0; // Отображаемое значение, если не задано
+    final currentValue = value ?? 5.0;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -37,13 +30,13 @@ class MoodRatingInputWidget extends StatelessWidget {
           ],
         ),
         Slider(
-          value: currentValue, // Используем currentValue для ползунка
+          value: currentValue,
           min: 1.0,
           max: 10.0,
-          divisions: 9, // 10-1 = 9 отрезков (10 возможных значений)
-          label: value != null ? value!.round().toString() : currentValue.round().toString(), // Всплывающая подсказка
-          onChanged: onChanged, // onChanged будет вызван с новым значением
-          activeColor: _getSliderColor(value ?? 5.0), // Цвет зависит от фактического value или дефолта
+          divisions: 9,
+          label: value != null ? value!.round().toString() : currentValue.round().toString(),
+          onChanged: onChanged,
+          activeColor: _getSliderColor(value ?? 5.0),
           inactiveColor: _getSliderColor(value ?? 5.0).withOpacity(0.3),
         ),
       ],

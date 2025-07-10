@@ -12,7 +12,6 @@ class NoteRepositoryImpl implements NoteRepository {
     try {
       return await _dao.insertNote(note);
     } catch (e) {
-      // print('Error adding note: $e');
       rethrow;
     }
   }
@@ -22,7 +21,6 @@ class NoteRepositoryImpl implements NoteRepository {
     try {
       return await _dao.getNotesByDate(date);
     } catch (e) {
-      // print('Error fetching notes for $date: $e');
       return [];
     }
   }
@@ -32,7 +30,6 @@ class NoteRepositoryImpl implements NoteRepository {
     try {
       await _dao.updateNote(note);
     } catch (e) {
-      // print('Error updating note ${note.id}: $e');
       rethrow;
     }
   }
@@ -42,7 +39,6 @@ class NoteRepositoryImpl implements NoteRepository {
     try {
       await _dao.deleteNote(noteId);
     } catch (e) {
-      // print('Error deleting note $noteId: $e');
       rethrow;
     }
   }

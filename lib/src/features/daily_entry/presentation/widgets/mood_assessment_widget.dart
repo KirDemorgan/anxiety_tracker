@@ -2,10 +2,9 @@ import 'package:flutter/material.dart';
 import '../../../../data/models/daily_mood_entry.dart';
 import 'mood_rating_input_widget.dart';
 
-// Виджет для оценки состояния (утро, день, вечер).
 class MoodAssessmentWidget extends StatefulWidget {
   final DateTime selectedDate;
-  final DailyMoodEntry? initialMoodEntry; // Для редактирования существующей записи
+  final DailyMoodEntry? initialMoodEntry;
   final Function(DailyMoodEntry) onSave;
 
   const MoodAssessmentWidget({
@@ -30,20 +29,16 @@ class _MoodAssessmentWidgetState extends State<MoodAssessmentWidget> {
     _updateMoodsFromInitialEntry(widget.initialMoodEntry);
   }
 
-  // Этот метод вызывается, когда виджет перестраивается с новым initialMoodEntry
-  // (например, при выборе другого дня с уже существующими данными о настроении).
   @override
   void didUpdateWidget(covariant MoodAssessmentWidget oldWidget) {
     super.didUpdateWidget(oldWidget);
-    // Только обновляем стейт, если initialMoodEntry действительно изменился.
-    // Сравнение по ссылке или по значению, если DailyMoodEntry реализует operator==
     if (widget.initialMoodEntry != oldWidget.initialMoodEntry) {
        _updateMoodsFromInitialEntry(widget.initialMoodEntry);
     }
   }
 
   void _updateMoodsFromInitialEntry(DailyMoodEntry? entry) {
-    setState(() { // Обернуть в setState, чтобы UI обновился при смене initialMoodEntry
+    setState(() {
       if (entry != null) {
         _morningMood = entry.morningMood?.toDouble();
         _dayMood = entry.dayMood?.toDouble();
@@ -65,10 +60,9 @@ class _MoodAssessmentWidgetState extends State<MoodAssessmentWidget> {
       return;
     }
 
-    // Если initialMoodEntry существует, используем его ID, иначе ID будет null (для новой записи)
     final moodEntry = DailyMoodEntry(
       id: widget.initialMoodEntry?.id, 
-      date: widget.selectedDate, // Это DateTime с временем 00:00:00
+      date: widget.selectedDate,
       morningMood: _morningMood?.round(),
       dayMood: _dayMood?.round(),
       eveningMood: _eveningMood?.round(),

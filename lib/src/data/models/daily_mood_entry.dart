@@ -1,16 +1,14 @@
 import 'package:intl/intl.dart';
 
-// Модель данных для ежедневных записей о настроении.
 class DailyMoodEntry {
-  // Статический метод для форматирования даты в строку
   static String dateToString(DateTime date) {
     return DateFormat('yyyy-MM-dd').format(date);
   }
-  final int? id; // Уникальный идентификатор из БД (auto-increment)
-  final DateTime date; // Дата записи
-  final int? morningMood; // Утреннее настроение (1-10)
-  final int? dayMood; // Дневное настроение (1-10)
-  final int? eveningMood; // Вечернее настроение (1-10)
+  final int? id;
+  final DateTime date;
+  final int? morningMood;
+  final int? dayMood;
+  final int? eveningMood;
 
   DailyMoodEntry({
     this.id,
@@ -20,7 +18,6 @@ class DailyMoodEntry {
     this.eveningMood,
   });
 
-  // Создает копию объекта с возможностью изменения некоторых полей
   DailyMoodEntry copyWith({
     int? id,
     DateTime? date,
@@ -37,23 +34,19 @@ class DailyMoodEntry {
     );
   }
 
-  // Конвертация в Map для сохранения в БД
   Map<String, dynamic> toMap() {
     return {
       'id': id,
-      'date': DailyMoodEntry.dateToString(date), // Храним дату как строку YYYY-MM-DD
+      'date': DailyMoodEntry.dateToString(date),
       'morning_mood': morningMood,
       'day_mood': dayMood,
       'evening_mood': eveningMood,
     };
   }
 
-  // Конвертация из Map (полученного из БД) в объект DailyMoodEntry
   factory DailyMoodEntry.fromMap(Map<String, dynamic> map) {
     return DailyMoodEntry(
       id: map['id'] as int?,
-      // Парсим строку даты обратно в DateTime. 
-      // Убедитесь, что 'date' всегда присутствует и корректно отформатирована.
       date: DateFormat('yyyy-MM-dd').parse(map['date'] as String),
       morningMood: map['morning_mood'] as int?,
       dayMood: map['day_mood'] as int?,

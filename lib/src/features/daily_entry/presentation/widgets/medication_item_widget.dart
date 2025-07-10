@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../../data/models/medication.dart';
 
-// Виджет для отображения одного элемента записи о лекарстве в списке.
 class MedicationItemWidget extends StatelessWidget {
   final Medication medication;
 
@@ -24,8 +23,6 @@ class MedicationItemWidget extends StatelessWidget {
           'Время: ${timeFormatter.formatTimeOfDay(medication.time, alwaysUse24HourFormat: true)}\nДозировка: ${medication.dosage ?? "не указана"}',
           style: TextStyle(fontSize: 13.0, color: Colors.grey[700]),
         ),
-        // Можно добавить кнопку для удаления или редактирования
-        // trailing: IconButton(icon: Icon(Icons.edit), onPressed: () { /* TODO: Edit medication */ }),
       ),
     );
   }

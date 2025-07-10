@@ -10,17 +10,15 @@ class MedicationDao {
 
   Future<Database> get _db async => await _dbHelper.database;
 
-  // Вставить новую запись о лекарстве
   Future<int> insertMedication(Medication medication) async {
     final dbClient = await _db;
     return await dbClient.insert(
       DatabaseHelper.tableMedications,
-      medication.toMap()..remove('id'), // id будет автоинкрементирован
+      medication.toMap()..remove('id'),
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
   }
 
-  // Получить все записи о лекарствах для определенной даты
   Future<List<Medication>> getMedicationsByDate(DateTime date) async {
     final dbClient = await _db;
     final String dateString = DateFormat('yyyy-MM-dd').format(date);
@@ -28,7 +26,7 @@ class MedicationDao {
       DatabaseHelper.tableMedications,
       where: '${DatabaseHelper.columnDate} = ?',
       whereArgs: [dateString],
-      orderBy: '${DatabaseHelper.columnTimestamp} ASC', // Сортируем по времени
+      orderBy: '${DatabaseHelper.columnTimestamp} ASC',
     );
 
     return List.generate(maps.length, (i) {
@@ -36,7 +34,6 @@ class MedicationDao {
     });
   }
 
-  // Обновить запись о лекарстве
   Future<int> updateMedication(Medication medication) async {
     final dbClient = await _db;
     return await dbClient.update(
@@ -47,7 +44,6 @@ class MedicationDao {
     );
   }
 
-  // Удалить запись о лекарстве по ID
   Future<int> deleteMedication(int id) async {
     final dbClient = await _db;
     return await dbClient.delete(
@@ -57,7 +53,6 @@ class MedicationDao {
     );
   }
   
-  // Получить все записи о лекарствах (для отладки или других нужд)
   Future<List<Medication>> getAllMedications() async {
     final dbClient = await _db;
     final List<Map<String, dynamic>> maps = await dbClient.query(DatabaseHelper.tableMedications);
